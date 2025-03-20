@@ -30,6 +30,8 @@ jobs:
         run: npm install
       - name: Build Application
         run: npm run build  # Ensure this generates the `dist` folder with `index.html`
+      - name: Debug Build Output
+        run: ls -la dist  # List the contents of the `dist` folder to verify `index.html` exists
       - name: Get Id Token
         uses: actions/github-script@v6
         id: idtoken
