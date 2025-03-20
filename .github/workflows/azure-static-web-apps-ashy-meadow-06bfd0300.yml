@@ -33,13 +33,8 @@ jobs:
       - name: Debug Build Output
         run: ls -la dist  # List the contents of the `dist` folder to verify `index.html` exists
       - name: Get Id Token
-        uses: actions/github-script@v6
         id: idtoken
-        with:
-          script: |
-            const coreModule = require('@actions/core')
-            return await coreModule.getIDToken()
-          result-encoding: string
+        run: echo "ID_TOKEN=$(echo ${{ secrets.GITHUB_TOKEN }})" >> $GITHUB_ENV
       - name: Build And Deploy
         id: builddeploy
         uses: Azure/static-web-apps-deploy@v1
@@ -49,7 +44,7 @@ jobs:
           app_location: "."  # Ensure this points to the root of your app
           api_location: ""
           output_location: "dist"  # Ensure this contains `index.html`
-          github_id_token: ${{ steps.idtoken.outputs.result }}
+          github_id_token: ${{ env.ID_TOKEN }}
 
   close_pull_request_job:
     if: github.event_name == 'pull_request' && github.event.action == 'closed'
@@ -60,5 +55,5 @@ jobs:
         id: closepullrequest
         uses: Azure/static-web-apps-deploy@v1
         with:
-          azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_ASHY_MEADOW_06BFD0300 }}
+          azure_static web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_ASHY_MEADOW_06BFD0300 }}
           action: "close"
